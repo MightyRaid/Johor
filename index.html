@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johor Day Trip - June 19</title>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0b0f19;
+            --bg-secondary: #171e2e;
+            --accent: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --green: #10b981;
+            --blue: #3b82f6;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            margin: 0;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+        }
+        h1 { margin: 0; font-size: 22px; font-weight: 700; }
+        .meta-info { color: var(--text-muted); font-size: 13px; margin: 6px 0 12px 0; font-weight: 500; }
+        
+        .maps-trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            width: 85%;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .route-summary-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 16px 0 8px 0;
+            color: var(--text-main);
+        }
+        .route-arrow { color: var(--accent); }
+
+        .timeline { position: relative; padding-left: 28px; margin-top: 10px; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 12px;
+            bottom: 12px;
+            width: 2px;
+            background: var(--border);
+        }
+        .card {
+            position: relative;
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+        .node {
+            position: absolute;
+            left: -28px;
+            top: 12px;
+            width: 20px;
+            height: 20px;
+            background: var(--bg-primary);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .node i { width: 10px; height: 10px; color: var(--accent); }
+        .time { font-size: 12px; font-weight: 700; color: var(--accent); }
+        .title { font-size: 16px; font-weight: 600; margin: 4px 0; }
+        .desc { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.4; }
+        
+        /* Category Hub Selectors */
+        .hub-selector {
+            display: flex;
+            background: #0b0f19;
+            padding: 4px;
+            border-radius: 10px;
+            margin: 12px 0;
+            border: 1px solid var(--border);
+        }
+        .hub-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .hub-btn.active {
+            background: var(--border);
+            color: var(--accent);
+        }
+
+        /* Standard Sub-Tabs Grid Layout */
+        .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+        .tab-btn {
+            background: #222f43;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .tab-btn.active {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: var(--accent);
+            color: var(--text-main);
+        }
+        
+        .tab-content {
+            background: #111827;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            display: none;
+            border: 1px solid #1f2937;
+        }
+        .tab-content.active { display: block; }
+        .hub-panel { display: none; }
+        .hub-panel.active { display: block; }
+        
+        .rating-row { display: flex; align-items: center; justify-content: space-between; font-weight: bold; margin-bottom: 8px; font-size: 13px; border-bottom: 1px dashed #1e293b; padding-bottom: 6px;}
+        .rating-stars { color: var(--accent); }
+        .loc-tag { background: #1e293b; color: #60a5fa; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+        
+        .recommendation-box { background: rgba(245, 158, 11, 0.04); border-left: 3px solid var(--accent); padding: 8px; margin-top: 8px; border-radius: 4px; font-size: 12px; line-height: 1.4; }
+        .price-item { display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .price-label { color: var(--text-muted); }
+        .price-val { font-weight: 600; color: var(--text-main); }
+        .web-link { display: block; margin-top: 8px; font-size: 11px; color: #60a5fa; text-decoration: none; font-weight: 500; }
+        
+        .action-container { display: flex; gap: 8px; margin-top: 10px; }
+        .action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+        .btn-call { background: #3b82f6; color: white; }
+        .btn-wa { background: var(--green); color: white; }
+
+        .tag-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+        .tag { background: #1e293b; color: #cbd5e1; font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 1px solid #334155; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1>Johor Quick Escapade</h1>
+        <div class="meta-info">🗓️ FRI, JUN 19  |  ⏱️ 09:00 - 16:30</div>
+        <a href="https://maps.google.com/?q=The+Mall,+Mid+Valley+Southkey" target="_blank" class="maps-trigger-btn">
+            <i data-lucide="map-pin"></i> Open Route in Google Maps
+        </a>
+    </header>
+
+    <div class="route-summary-bar">
+        <span>🇸🇬 Woodlands</span>
+        <span class="route-arrow">➔</span>
+        <span>🛣️ EDL Highway</span>
+        <span class="route-arrow">➔</span>
+        <span>🇲🇾 Mid Valley Southkey</span>
+    </div>
+
+    <div class="timeline">
+        <div class="card">
+            <div class="node"><i data-lucide="compass"></i></div>
+            <div class="time">09:00 AM</div>
+            <div class="title">Border Crossing</div>
+            <div class="desc">Depart SG via Woodlands Checkpoint. Drive direct to Mid Valley Southkey parking complex.</div>
+        </div>
+
+        <div class="card">
+            <div class="node"><i data-lucide="utensils"></i></div>
+            <div class="time">10:15 AM</div>
+            <div class="title">Brunch Hub Selection</div>
+            <div class="desc">Toggle below to choose between high-tier dining options located right inside the shopping complex or famous local tracks nearby:</div>
+            
+            <div class="hub-selector">
+                <button id="btn-hub-mall" class="hub-btn active" onclick="switchHub('mall')">🏢 Inside Mall</button>
+                <button id="btn-hub-outside" class="hub-btn" onclick="switchHub('outside')">🚗 Outside Mall (Local Vetted)</button>
+            </div>
+
+            <div id="hub-panel-mall" class="hub-panel active">
+                <div class="tabs">
+                    <button class="tab-btn mall-t active" onclick="switchElementTab('mall-t', 'mall-content', 'oriental')">Oriental Kopi</button>
+                    <button class="tab-btn mall-t" onclick="switchElementTab('mall-t', 'mall-content', 'kwan')">Madam Kwan's</button>
+                    <button class="tab-btn mall-t" onclick="switchElementTab('mall-t', 'mall-content', 'roger')">Uncle Roger Fried Rice</button>
+                    <button class="tab-btn mall-t" onclick="switchElementTab('mall-t', 'mall-content', 'mengmeng')">Meng Meng Duck</button>
+                    <button class="tab-btn mall-t" onclick="switchElementTab('mall-t', 'mall-content', 'paradise')">Paradise Dynasty</button>
+                </div>
+
+                <div id="oriental" class="tab-content mall-content active">
+                    <div class="rating-row"><span>⭐⭐⭐⭐★ 4.1/5 Google</span> <span class="loc-tag">Level LG</span></div>
+                    <div class="price-item"><span class="price-label">Signature Nasi Lemak</span><span class="price-val">~RM17.90</span></div>
+                    <div class="price-item"><span class="price-label">Portuguese Egg Tart</span><span class="price-val">~RM4.90/pc</span></div>
+                    <div class="recommendation-box">
+                        <strong>💡 Short Reason:</strong> Massive crowd favorite. Entering right at 10:15 AM lets you bypass notorious lunch lines. Their thick Nanyang coffee and super flaky tarts are legendary.
+                    </div>
+                </div>
+
+                <div id="kwan" class="tab-content mall-content">
+                    <div class="rating-row"><span>⭐⭐⭐⭐★ 4.3/5 Score</span> <span class="loc-tag">Level 1</span></div>
+                    <div class="price-item"><span class="price-label">Nasi Bojari Platter</span><span class="price-val">~RM38.00</span></div>
+                    <div class="price-item"><span class="price-label">Signature Curry Laksa</span><span class="price-val">~RM24.00</span></div>
+                    <div class="recommendation-box">
+                        <strong>💡 Short Reason:</strong> The gold standard for upscale, clean Malaysian dining. Perfect if your group wants pristine, authentic local flavors in a comfortable, highly polished restaurant setting.
+                    </div>
+                </div>
+
+                <div id="roger" class="tab-content mall-content">
+                    <div class="rating-row"><span>⭐⭐⭐⭐☆ 4.1/5 Buzz</span> <span class="loc-tag">Level LG</span></div>
+                    <div class="price-item"><span class="price-label">Secret Fried Rice</span><span class="price-val">~RM18.00</span></div>
+                    <div class="price-item"><span class="price-label">Mala Popcorn Chicken</span><span class="price-val">~RM12.00</span></div>
+                    <div class="recommendation-box">
+                        <strong>💡 Short Reason:</strong> Brand new, modern, and fun. Delivers heavy "wok hei" frying pan smoke. Great for group photos and catching the internet culture wave while having highly addictive food.
+                    </div>
+                </div>
+
+                <div id="mengmeng" class="tab-content mall-content">
+                    <div class="rating-row"><span>⭐⭐⭐⭐★ 4.0/5 Burpple</span> <span class="loc-tag">Level LG</span></div>
+                    <div class="price-item"><span class="price-label">Roasted Duck (Dang Gui)</span><span class="price-val">~RM46.00</span></div>
+                    <div class="recommendation-box">
+                        <strong>💡 Short Reason:</strong> Authentic charcoal-cooked roasted meats. The herbal duck glaze makes for a fantastic centerpiece dish for a group to divide up and share.
+                    </div>
+                </div>
+
+                <div id="paradise" class="tab-content mall-content">
+                    <div class="rating-row"><span>⭐⭐⭐⭐☆ 3.9/5 Guide</span> <span class="loc-tag">Level 1</span></div>
+                    <div class="price-item"><span class="price-label">8-Flavour Xiao Long Bao</span><span class="price-val">~RM32.00</span></div>
+                    <div class="recommendation-box">
+                        <strong>💡 Short Reason:</strong> High-end Chinese dim sum. Their multi-flavored dumpling baskets (truffle, cheese, garlic) offer great structural variety for the table.
+                    </div>
+                </div>
+            </div>
+
+            <div id="hub-panel-outside" class="hub-panel">
+                <div class="tabs">
+                    <button class="tab-btn out-t active" onclick="switchElementTab('out-t', 'out-content', 'kamlong')">Kam Long Fish Head</button>
+                    <button class="tab-btn out-t" onclick="switchElementTab('out-t', 'out-content', 'shoonhuat')">Shoon Huat BKT</button>
+                    <button class="tab-btn out-t" onclick="switchElementTab('out-t', 'out-content', 'haikah')">Hai Kah Lang Soup</button>
+                    <button class="tab-btn out-t" onclick="switchElementTab('out-t', 'out-content', 'ahhua')">Ah Hua Pork Noodles</button>
+                    <button class="tab-btn out-t" onclick="switchElementTab('out-t', 'out-content', 'huamui')">Hua Mui Kopitiam</button>
+                </div>
+
+                <div id="kamlong" class="tab-content out-content active">
+                    <div class="rating-row"><span>⭐⭐⭐⭐★ 4.4/5 Elite</span> <span class="loc-tag">🚗 6 mins away</span></div>
+                    <div class="price-item"><span class="price-label">Claypot Curry Fish Head</span><span class="price-val">~RM35 - RM65</span></div>
+                    <div class="recommendation-box">
+                        <strong>💡 Short Reason:</strong> A legendary local institution. Serves boiling, intensely aromatic curry fish heads topped with endless fried beancurd skins. Arriving at 10:15 AM lands you a table with zero wait time.
+                    </div>
+                </div>
+
+                <div id="shoonhuat" class="tab-content out-content">
+                    <div class="rating-row"><span>⭐⭐⭐⭐★ 4.2/5 Score</span> <span class="loc-tag">🚗 7 mins away</span></div>
+                    <div class="price-item"><span class="price-label">Herbal Bak Kut Teh</span><span class="price-val">~RM16/pax</span></div>
+                    <div class="price-item"><span class="price-label">Dry Tossed Pork Ribs</span><span class="price-val">~RM18.00</span></div>
+                    <div class="recommendation-box">
+                        <strong>💡 Short Reason:</strong> Absolute default local benchmark for herbal Malaysian BKT. Their signature Dry BKT is loaded with okra, dried chilies, and a sweet dark reductions coating that packs a deep punch.
+                    </div>
+                </div>
+
+                <div id="haikah" class="tab-content out-content">
+                    <div class="rating-row"><span>⭐⭐⭐⭐★ 4.5/5 Michelin</span> <span class="loc-tag">🚗 8 mins away</span></div>
+                    <div class="price-item"><span class="price-label">Mixed Seafood Soup</span><span class="price-val">~RM22.00</span></div>
+                    <div class="recommendation-box">
+                        <strong>💡 Short Reason:</strong> Award-winning, premium seafood soups using ultra-sweet, milk-free marine broths. Clean and nourishing, meaning your group won't feel uncomfortably bloated before masssages.
+                    </div>
+                </div>
+
+                <div id="ahhua" class="tab-content out-content">
+                    <div class="rating-row"><span>⭐⭐⭐⭐★ 4.3/5 Review</span> <span class="loc-tag">🚗 5 mins away</span></div>
+                    <div class="price-item"><span class="price-label">Signature Pork Noodles</span><span class="price-val">~RM12.00</span></div>
+                    <div class="recommendation-box">
+                        <strong>💡 Short Reason:</strong> Deep Teochew food heritage with crispy lard chunks and perfectly tender pork cuts. Go for the dry-tossed version coated in dark vinegar and black soy sauce.
+                    </div>
+                </div>
+
+                <div id="huamui" class="tab-content out-content">
+                    <div class="rating-row"><span>⭐⭐⭐⭐☆ 4.2/5 Icon</span> <span class="loc-tag">🚗 9 mins away</span></div>
+                    <div class="price-item"><span class="price-label">Hainanese Chicken Chop</span><span class="price-val">~RM18.50</span></div>
+                    <div class="recommendation-box">
+                        <strong>💡 Short Reason:</strong> Operating since 1946. Delivers an unmatched nostalgia factor inside a vintage pre-war shop house. Their famous golden fried chicken thigh is smothered in old-school green-pea gravy.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="node"><i data-lucide="heart-handshake"></i></div>
+            <div class="time">11:30 AM</div>
+            <div class="title">Massage Therapy Hub</div>
+            <div class="desc">Regroup inside the mall complex to execute your premium therapy slots. Mani-pedi sections have been fully removed:</div>
+            
+            <div class="tabs">
+                <button class="tab-btn massage-t active" onclick="switchElementTab('massage-t', 'massage-content', 'thai')">Thai Odyssey</button>
+                <button class="tab-btn massage-t" onclick="switchElementTab('massage-t', 'massage-content', 'siam')">Siam Oasis</button>
+            </div>
+
+            <div id="thai" class="tab-content massage-content active">
+                <div class="price-item"><span class="price-label">Thai Body Massage (60m)</span><span class="price-val">~RM160</span></div>
+                <div class="price-item"><span class="price-label">Thai Body Massage (90m)</span><span class="price-val">~RM189</span></div>
+                <div class="price-item"><span class="price-label">Aromatherapy (60m)</span><span class="price-val">~RM160</span></div>
+                <a href="https://thaiodyssey.com" target="_blank" class="web-link">🌐 Visit Official Website →</a>
+                <div class="action-container">
+                    <a href="tel:+6073384185" class="action-btn btn-call"><i data-lucide="phone"></i> Call Outlet</a>
+                    <a href="https://api.whatsapp.com/send?phone=60168668344" target="_blank" class="action-btn btn-wa"><i data-lucide="message-square"></i> WhatsApp</a>
+                </div>
+            </div>
+
+            <div id="siam" class="tab-content massage-content">
+                <div class="price-item"><span class="price-label">Full Foot Massage (60m)</span><span class="price-val">~RM60</span></div>
+                <div class="price-item"><span class="price-label">Head & Shoulder (30m)</span><span class="price-val">~RM50</span></div>
+                <div class="price-item"><span class="price-label">Aromatherapy Oil (60m)</span><span class="price-val">~RM120</span></div>
+                <a href="https://www.midvalleysouthkey.com/tenant/SiamOasis/5c40c338-3cc6-4c95-b3c3-43fd6478a9d6/SHOP" target="_blank" class="web-link">🌐 View Mall Directory Profile →</a>
+                <div class="action-container">
+                    <a href="tel:+6072910687" class="action-btn btn-call"><i data-lucide="phone"></i> Call Outlet</a>
+                    <a href="https://api.whatsapp.com/send?phone=60124373100" target="_blank" class="action-btn btn-wa"><i data-lucide="message-square"></i> WhatsApp</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="node"><i data-lucide="shopping-bag"></i></div>
+            <div class="time">01:30 PM</div>
+            <div class="title">Malaysian Exchange Rate Haul</div>
+            <div class="desc">High-value storefronts where Singaporeans maximize savings on personal care and retail items:</div>
+            <div class="tag-list">
+                <span class="tag">📦 Focus Point / Optical 88</span>
+                <span class="tag">👕 Good2U Retail Hub</span>
+                <span class="tag">🧢 Outpozt Streetwear</span>
+                <span class="tag">🏬 SOGO Department Store</span>
+                <span class="tag">🛒 Village Grocer</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="node"><i data-lucide="fuel"></i></div>
+            <div class="time">03:45 PM</div>
+            <div class="title">Fuel Pitstop</div>
+            <div class="desc">Exit the car park structure. Top off fuel directly along the perimeter lanes returning back to the border.</div>
+            <div class="tag-list">
+                <span class="tag">⛽ Petronas Bukit Chagar</span>
+                <span class="tag">⛽ Shell Inner Ring Road</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="node"><i data-lucide="log-out"></i></div>
+            <div class="time">04:00 PM</div>
+            <div class="title">Customs Departure</div>
+            <div class="desc">Join the customs lanes early to beat the heavy Friday evening commute traffic.</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+
+    // Switches between Inside Mall Panel and Outside Mall Panel
+    function switchHub(hubType) {
+        document.querySelectorAll('.hub-panel').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.hub-btn').forEach(el => el.classList.remove('active'));
+        
+        if(hubType === 'mall') {
+            document.getElementById('hub-panel-mall').classList.add('active');
+            document.getElementById('btn-hub-mall').classList.add('active');
+        } else {
+            document.getElementById('hub-panel-outside').classList.add('active');
+            document.getElementById('btn-hub-outside').classList.add('active');
+        }
+    }
+
+    // Handles individual food item sub-tabs
+    function switchElementTab(btnClass, contentClass, selectedId) {
+        document.querySelectorAll('.' + contentClass).forEach(el => el.classList.remove('active'));
+        event.currentTarget.parentElement.querySelectorAll('.' + btnClass).forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(selectedId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+</script>
+</body>
+</html>
