@@ -215,6 +215,7 @@
     </div>
 
     <div class="timeline">
+        <!-- 09:00 -->
         <div class="card">
             <div class="node"><i data-lucide="compass"></i></div>
             <div class="time">09:00 AM</div>
@@ -222,17 +223,20 @@
             <div class="desc">Depart SG via Woodlands Checkpoint. Drive direct to Mid Valley Southkey parking complex.</div>
         </div>
 
+        <!-- 10:15 AM - Dual Category Food Hub -->
         <div class="card">
             <div class="node"><i data-lucide="utensils"></i></div>
             <div class="time">10:15 AM</div>
             <div class="title">Brunch Hub Selection</div>
             <div class="desc">Toggle below to choose between high-tier dining options located right inside the shopping complex or famous local tracks nearby:</div>
             
+            <!-- Primary Hub Selector Toggle Switches -->
             <div class="hub-selector">
                 <button id="btn-hub-mall" class="hub-btn active" onclick="switchHub('mall')">🏢 Inside Mall</button>
                 <button id="btn-hub-outside" class="hub-btn" onclick="switchHub('outside')">🚗 Outside Mall (Local Vetted)</button>
             </div>
 
+            <!-- HUB SECTION A: INSIDE MALL -->
             <div id="hub-panel-mall" class="hub-panel active">
                 <div class="tabs">
                     <button class="tab-btn mall-t active" onclick="switchElementTab('mall-t', 'mall-content', 'oriental')">Oriental Kopi</button>
@@ -244,8 +248,8 @@
 
                 <div id="oriental" class="tab-content mall-content active">
                     <div class="rating-row"><span>⭐⭐⭐⭐★ 4.1/5 Google</span> <span class="loc-tag">Level LG</span></div>
-                    <div class="price-item"><span class="price-label">Signature Nasi Lemak</span><span class="price-val">~RM17.90</span></div>
-                    <div class="price-item"><span class="price-label">Portuguese Egg Tart</span><span class="price-val">~RM4.90/pc</span></div>
+                    <div class="price-item"><span class="price-label">Signature Nasi Lemak</span><span class="price-val">RM17.90</span></div>
+                    <div class="price-item"><span class="price-label">Portuguese Egg Tart</span><span class="price-val">RM4.90/pc</span></div>
                     <div class="recommendation-box">
                         <strong>💡 Short Reason:</strong> Massive crowd favorite. Entering right at 10:15 AM lets you bypass notorious lunch lines. Their thick Nanyang coffee and super flaky tarts are legendary.
                     </div>
@@ -253,8 +257,8 @@
 
                 <div id="kwan" class="tab-content mall-content">
                     <div class="rating-row"><span>⭐⭐⭐⭐★ 4.3/5 Score</span> <span class="loc-tag">Level 1</span></div>
-                    <div class="price-item"><span class="price-label">Nasi Bojari Platter</span><span class="price-val">~RM38.00</span></div>
-                    <div class="price-item"><span class="price-label">Signature Curry Laksa</span><span class="price-val">~RM24.00</span></div>
+                    <div class="price-item"><span class="price-label">Nasi Bojari Platter</span><span class="price-val">RM38.00</span></div>
+                    <div class="price-item"><span class="price-label">Signature Curry Laksa</span><span class="price-val">RM24.00</span></div>
                     <div class="recommendation-box">
                         <strong>💡 Short Reason:</strong> The gold standard for upscale, clean Malaysian dining. Perfect if your group wants pristine, authentic local flavors in a comfortable, highly polished restaurant setting.
                     </div>
@@ -262,8 +266,8 @@
 
                 <div id="roger" class="tab-content mall-content">
                     <div class="rating-row"><span>⭐⭐⭐⭐☆ 4.1/5 Buzz</span> <span class="loc-tag">Level LG</span></div>
-                    <div class="price-item"><span class="price-label">Secret Fried Rice</span><span class="price-val">~RM18.00</span></div>
-                    <div class="price-item"><span class="price-label">Mala Popcorn Chicken</span><span class="price-val">~RM12.00</span></div>
+                    <div class="price-item"><span class="price-label">Secret Fried Rice</span><span class="price-val">RM18.00</span></div>
+                    <div class="price-item"><span class="price-label">Mala Popcorn Chicken</span><span class="price-val">RM12.00</span></div>
                     <div class="recommendation-box">
                         <strong>💡 Short Reason:</strong> Brand new, modern, and fun. Delivers heavy "wok hei" frying pan smoke. Great for group photos and catching the internet culture wave while having highly addictive food.
                     </div>
@@ -271,7 +275,7 @@
 
                 <div id="mengmeng" class="tab-content mall-content">
                     <div class="rating-row"><span>⭐⭐⭐⭐★ 4.0/5 Burpple</span> <span class="loc-tag">Level LG</span></div>
-                    <div class="price-item"><span class="price-label">Roasted Duck (Dang Gui)</span><span class="price-val">~RM46.00</span></div>
+                    <div class="price-item"><span class="price-label">Roasted Duck (Dang Gui)</span><span class="price-val">RM46.00</span></div>
                     <div class="recommendation-box">
                         <strong>💡 Short Reason:</strong> Authentic charcoal-cooked roasted meats. The herbal duck glaze makes for a fantastic centerpiece dish for a group to divide up and share.
                     </div>
@@ -279,13 +283,14 @@
 
                 <div id="paradise" class="tab-content mall-content">
                     <div class="rating-row"><span>⭐⭐⭐⭐☆ 3.9/5 Guide</span> <span class="loc-tag">Level 1</span></div>
-                    <div class="price-item"><span class="price-label">8-Flavour Xiao Long Bao</span><span class="price-val">~RM32.00</span></div>
+                    <div class="price-item"><span class="price-label">8-Flavour Xiao Long Bao</span><span class="price-val">RM32.00</span></div>
                     <div class="recommendation-box">
                         <strong>💡 Short Reason:</strong> High-end Chinese dim sum. Their multi-flavored dumpling baskets (truffle, cheese, garlic) offer great structural variety for the table.
                     </div>
                 </div>
             </div>
 
+            <!-- HUB SECTION B: OUTSIDE MALL -->
             <div id="hub-panel-outside" class="hub-panel">
                 <div class="tabs">
                     <button class="tab-btn out-t active" onclick="switchElementTab('out-t', 'out-content', 'kamlong')">Kam Long Fish Head</button>
@@ -297,7 +302,8 @@
 
                 <div id="kamlong" class="tab-content out-content active">
                     <div class="rating-row"><span>⭐⭐⭐⭐★ 4.4/5 Elite</span> <span class="loc-tag">🚗 6 mins away</span></div>
-                    <div class="price-item"><span class="price-label">Claypot Curry Fish Head</span><span class="price-val">~RM35 - RM65</span></div>
+                    <div class="price-item"><span class="price-label">Claypot Curry Fish Head (M)</span><span class="price-val">RM47.00</span></div>
+                    <div class="price-item"><span class="price-label">Extra Fried Beancurd Skin</span><span class="price-val">RM6.00</span></div>
                     <div class="recommendation-box">
                         <strong>💡 Short Reason:</strong> A legendary local institution. Serves boiling, intensely aromatic curry fish heads topped with endless fried beancurd skins. Arriving at 10:15 AM lands you a table with zero wait time.
                     </div>
@@ -305,24 +311,24 @@
 
                 <div id="shoonhuat" class="tab-content out-content">
                     <div class="rating-row"><span>⭐⭐⭐⭐★ 4.2/5 Score</span> <span class="loc-tag">🚗 7 mins away</span></div>
-                    <div class="price-item"><span class="price-label">Herbal Bak Kut Teh</span><span class="price-val">~RM16/pax</span></div>
-                    <div class="price-item"><span class="price-label">Dry Tossed Pork Ribs</span><span class="price-val">~RM18.00</span></div>
+                    <div class="price-item"><span class="price-label">Herbal Soup BKT (Per Pax)</span><span class="price-val">RM16.00</span></div>
+                    <div class="price-item"><span class="price-label">Signature Dry BKT</span><span class="price-val">RM18.00</span></div>
                     <div class="recommendation-box">
-                        <strong>💡 Short Reason:</strong> Absolute default local benchmark for herbal Malaysian BKT. Their signature Dry BKT is loaded with okra, dried chilies, and a sweet dark reductions coating that packs a deep punch.
+                        <strong>💡 Short Reason:</strong> Absolute default local benchmark for herbal Malaysian BKT. Their signature Dry BKT is loaded with okra, dried chilies, and a sweet dark reduction coating that packs a deep punch.
                     </div>
                 </div>
 
                 <div id="haikah" class="tab-content out-content">
                     <div class="rating-row"><span>⭐⭐⭐⭐★ 4.5/5 Michelin</span> <span class="loc-tag">🚗 8 mins away</span></div>
-                    <div class="price-item"><span class="price-label">Mixed Seafood Soup</span><span class="price-val">~RM22.00</span></div>
+                    <div class="price-item"><span class="price-label">Mixed Seafood Soup</span><span class="price-val">RM22.00</span></div>
                     <div class="recommendation-box">
-                        <strong>💡 Short Reason:</strong> Award-winning, premium seafood soups using ultra-sweet, milk-free marine broths. Clean and nourishing, meaning your group won't feel uncomfortably bloated before masssages.
+                        <strong>💡 Short Reason:</strong> Award-winning, premium seafood soups using ultra-sweet, milk-free marine broths. Clean and nourishing, meaning your group won't feel uncomfortably bloated before massages.
                     </div>
                 </div>
 
                 <div id="ahhua" class="tab-content out-content">
                     <div class="rating-row"><span>⭐⭐⭐⭐★ 4.3/5 Review</span> <span class="loc-tag">🚗 5 mins away</span></div>
-                    <div class="price-item"><span class="price-label">Signature Pork Noodles</span><span class="price-val">~RM12.00</span></div>
+                    <div class="price-item"><span class="price-label">Signature Pork Noodles</span><span class="price-val">RM12.00</span></div>
                     <div class="recommendation-box">
                         <strong>💡 Short Reason:</strong> Deep Teochew food heritage with crispy lard chunks and perfectly tender pork cuts. Go for the dry-tossed version coated in dark vinegar and black soy sauce.
                     </div>
@@ -330,19 +336,20 @@
 
                 <div id="huamui" class="tab-content out-content">
                     <div class="rating-row"><span>⭐⭐⭐⭐☆ 4.2/5 Icon</span> <span class="loc-tag">🚗 9 mins away</span></div>
-                    <div class="price-item"><span class="price-label">Hainanese Chicken Chop</span><span class="price-val">~RM18.50</span></div>
+                    <div class="price-item"><span class="price-label">Hainanese Chicken Chop</span><span class="price-val">RM18.50</span></div>
                     <div class="recommendation-box">
-                        <strong>💡 Short Reason:</strong> Operating since 1946. Delivers an unmatched nostalgia factor inside a vintage pre-war shop house. Their famous golden fried chicken thigh is smothered in old-school green-pea gravy.
+                        <strong>💡 Short Reason:</strong> Operating since 1946. Delivers an unmatched nostalgia factor inside a vintage pre-war shop house. Their famous golden fried chicken thigh is immersed in old-school green-pea gravy.
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- 11:30 AM - Streamlined Group Massage Hub -->
         <div class="card">
             <div class="node"><i data-lucide="heart-handshake"></i></div>
             <div class="time">11:30 AM</div>
             <div class="title">Massage Therapy Hub</div>
-            <div class="desc">Regroup inside the mall complex to execute your premium therapy slots. Mani-pedi sections have been fully removed:</div>
+            <div class="desc">Regroup inside the mall complex to execute your premium therapy slots. (Prices subject to 8% SST):</div>
             
             <div class="tabs">
                 <button class="tab-btn massage-t active" onclick="switchElementTab('massage-t', 'massage-content', 'thai')">Thai Odyssey</button>
@@ -350,9 +357,9 @@
             </div>
 
             <div id="thai" class="tab-content massage-content active">
-                <div class="price-item"><span class="price-label">Thai Body Massage (60m)</span><span class="price-val">~RM160</span></div>
-                <div class="price-item"><span class="price-label">Thai Body Massage (90m)</span><span class="price-val">~RM189</span></div>
-                <div class="price-item"><span class="price-label">Aromatherapy (60m)</span><span class="price-val">~RM160</span></div>
+                <div class="price-item"><span class="price-label">Thai Traditional Massage (60m)</span><span class="price-val">RM160.00</span></div>
+                <div class="price-item"><span class="price-label">Thai Traditional Massage (90m)</span><span class="price-val">RM189.00</span></div>
+                <div class="price-item"><span class="price-label">Thai Aromatherapy Oil (90m)</span><span class="price-val">RM209.00</span></div>
                 <a href="https://thaiodyssey.com" target="_blank" class="web-link">🌐 Visit Official Website →</a>
                 <div class="action-container">
                     <a href="tel:+6073384185" class="action-btn btn-call"><i data-lucide="phone"></i> Call Outlet</a>
@@ -361,10 +368,11 @@
             </div>
 
             <div id="siam" class="tab-content massage-content">
-                <div class="price-item"><span class="price-label">Full Foot Massage (60m)</span><span class="price-val">~RM60</span></div>
-                <div class="price-item"><span class="price-label">Head & Shoulder (30m)</span><span class="price-val">~RM50</span></div>
-                <div class="price-item"><span class="price-label">Aromatherapy Oil (60m)</span><span class="price-val">~RM120</span></div>
-                <a href="https://www.midvalleysouthkey.com/tenant/SiamOasis/5c40c338-3cc6-4c95-b3c3-43fd6478a9d6/SHOP" target="_blank" class="web-link">🌐 View Mall Directory Profile →</a>
+                <div class="price-item"><span class="price-label">5 Senses Therapy (60m)</span><span class="price-val">RM111.25</span></div>
+                <div class="price-item"><span class="price-label">Sacha Inchi Oil Aroma (60m)</span><span class="price-val">RM168.00</span></div>
+                <div class="price-item"><span class="price-label">Sacha Inchi Oil Aroma (90m)</span><span class="price-val">RM203.00</span></div>
+                <p style="font-size:10px; color:#f87171; margin: 6px 0 0 0;">⚠️ Note: Requires RM100 booking deposit. Strict 10-min grace period.</p>
+                <a href="https://www.midvalleysouthkey.com/tenant/SiamOasis/5c40c338-3cc6-4c95-b3c3-43fd6478a9d6/SHOP" target="_blank" class="web-link">🌐 View Mall Profile →</a>
                 <div class="action-container">
                     <a href="tel:+6072910687" class="action-btn btn-call"><i data-lucide="phone"></i> Call Outlet</a>
                     <a href="https://api.whatsapp.com/send?phone=60124373100" target="_blank" class="action-btn btn-wa"><i data-lucide="message-square"></i> WhatsApp</a>
@@ -372,6 +380,7 @@
             </div>
         </div>
 
+        <!-- 13:30 -->
         <div class="card">
             <div class="node"><i data-lucide="shopping-bag"></i></div>
             <div class="time">01:30 PM</div>
@@ -386,6 +395,7 @@
             </div>
         </div>
 
+        <!-- 15:45 -->
         <div class="card">
             <div class="node"><i data-lucide="fuel"></i></div>
             <div class="time">03:45 PM</div>
@@ -397,6 +407,7 @@
             </div>
         </div>
 
+        <!-- 16:00 -->
         <div class="card">
             <div class="node"><i data-lucide="log-out"></i></div>
             <div class="time">04:00 PM</div>
