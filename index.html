@@ -40,7 +40,18 @@
             padding-bottom: 16px;
         }
         h1 { margin: 0; font-size: 22px; font-weight: 700; }
-        .meta-info { color: var(--text-muted); font-size: 13px; margin: 6px 0 12px 0; font-weight: 500; }
+        .meta-info { color: var(--text-muted); font-size: 13px; margin: 6px 0 4px 0; font-weight: 500; }
+        .fx-rate-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
         
         .maps-trigger-btn {
             display: inline-flex;
@@ -203,6 +214,8 @@
     <header>
         <h1>Johor Quick Escapade</h1>
         <div class="meta-info">🗓️ FRI, JUN 19  |  ⏱️ 09:00 - 16:30</div>
+        <div class="fx-rate-badge">💱 Exchange Rate: 1 SGD = 3.16 RM</div>
+        <br>
         <a href="https://maps.google.com/?q=The+Mall,+Mid+Valley+Southkey" target="_blank" class="maps-trigger-btn">
             <i data-lucide="map-pin"></i> Open Route in Google Maps
         </a>
