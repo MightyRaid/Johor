@@ -69,6 +69,48 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
+        /* Master Strategy Toggle */
+        .master-strategy-box {
+            background: #090d16;
+            border: 1px solid var(--accent);
+            padding: 12px;
+            border-radius: 16px;
+            margin: 16px 0;
+        }
+        .strategy-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .master-toggle {
+            display: flex;
+            background: #111827;
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .master-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .master-btn.active {
+            background: var(--accent);
+            color: #0b0f19;
+        }
+
         .route-summary-bar {
             display: flex;
             align-items: center;
@@ -79,7 +121,7 @@
             border-radius: 12px;
             font-size: 11px;
             font-weight: 600;
-            margin: 16px 0 8px 0;
+            margin: 8px 0;
             color: var(--text-main);
         }
         .route-arrow { color: var(--accent); }
@@ -102,6 +144,12 @@
             padding: 14px;
             margin-bottom: 16px;
         }
+        
+        /* Conditional Visibility Classes */
+        .route-0830, .route-0900 { display: none; }
+        .route-0830.show-block, .route-0900.show-block { display: block; }
+        .route-0830.show-flex, .route-0900.show-flex { display: flex; }
+
         .node {
             position: absolute;
             left: -28px;
@@ -117,7 +165,7 @@
         }
         .node i { width: 10px; height: 10px; color: var(--accent); }
         .time { font-size: 12px; font-weight: 700; color: var(--accent); }
-        .title { font-size: 16px; font-weight: 600; margin: 4px 0; }
+        .title font-size: 16px; font-weight: 600; margin: 4px 0; }
         .desc { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.4; }
         
         /* Category Hub Selectors */
@@ -177,7 +225,6 @@
         .hub-panel.active { display: block; }
         
         .rating-row { display: flex; align-items: center; justify-content: space-between; font-weight: bold; margin-bottom: 8px; font-size: 13px; border-bottom: 1px dashed #1e293b; padding-bottom: 6px;}
-        .rating-stars { color: var(--accent); }
         .loc-tag { background: #1e293b; color: #60a5fa; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
         
         .recommendation-box { background: rgba(245, 158, 11, 0.04); border-left: 3px solid var(--accent); padding: 8px; margin-top: 8px; border-radius: 4px; font-size: 12px; line-height: 1.4; }
@@ -185,7 +232,6 @@
         .price-label { color: var(--text-muted); }
         .price-container { display: flex; align-items: center; gap: 6px; font-weight: 600; color: var(--text-main); }
         .sgd-val { font-size: 11px; color: #10b981; font-weight: 600; background: rgba(16, 185, 129, 0.08); padding: 1px 5px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.15); }
-        .web-link { display: block; margin-top: 8px; font-size: 11px; color: #60a5fa; text-decoration: none; font-weight: 500; }
         
         .action-container { display: flex; gap: 8px; margin-top: 10px; }
         .action-btn {
@@ -206,6 +252,7 @@
 
         .tag-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
         .tag { background: #1e293b; color: #cbd5e1; font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 1px solid #334155; }
+        .tag-time { color: var(--accent); font-weight: 700; margin-right: 4px; }
     </style>
 </head>
 <body>
@@ -213,7 +260,7 @@
 <div class="app-container">
     <header>
         <h1>Johor Quick Escapade</h1>
-        <div class="meta-info">🗓️ FRI, JUN 19  |  ⏱️ 09:00 - 16:30</div>
+        <div class="meta-info">🗓️ FRI, JUN 19  |  ⏱️ Morning Options Added</div>
         <!-- Active Rate Container Target -->
         <div id="rate-badge" class="fx-rate-badge">🔄 Fetching Live Exchange Rate...</div>
         <br>
@@ -222,31 +269,107 @@
         </a>
     </header>
 
-    <div class="route-summary-bar">
-        <span>🇸🇬 Woodlands</span>
+    <!-- Master Departure Strategy Filter Switch -->
+    <div class="master-strategy-box">
+        <div class="strategy-title">⏱️ Select Departure Strategy</div>
+        <div class="master-toggle">
+            <button id="m-btn-0830" class="master-btn active" onclick="toggleMasterStrategy('0830')">08:30 AM (w/ Old Town)</button>
+            <button id="m-btn-0900" class="master-btn" onclick="toggleMasterStrategy('0900')">09:00 AM (Direct Mall)</button>
+        </div>
+    </div>
+
+    <!-- Route Progress Bars (Conditional) -->
+    <div class="route-summary-bar route-0830 show-flex">
+        <span>🇸🇬 Woodlands (08:30)</span>
+        <span class="route-arrow">➔</span>
+        <span>🥖 Old Town</span>
+        <span class="route-arrow">➔</span>
+        <span>🇲🇾 Southkey</span>
+    </div>
+
+    <div class="route-summary-bar route-0900">
+        <span>🇸🇬 Woodlands (09:00)</span>
         <span class="route-arrow">➔</span>
         <span>🛣️ EDL Highway</span>
         <span class="route-arrow">➔</span>
-        <span>🇲🇾 Mid Valley Southkey</span>
+        <span>🇲🇾 Southkey (10:00)</span>
     </div>
 
     <div class="timeline">
-        <!-- 09:00 -->
-        <div class="card">
+        
+        <!-- OPTION 1: 08:30 AM DEPARTURE ONLY BLOCKS -->
+        <div class="card route-0830 show-block">
             <div class="node"><i data-lucide="compass"></i></div>
-            <div class="time">09:00 AM</div>
-            <div class="title">Border Crossing</div>
-            <div class="desc">Depart SG via Woodlands Checkpoint. Drive direct to Mid Valley Southkey parking complex.</div>
+            <div class="time">08:30 AM</div>
+            <div class="title">Early Border Crossing</div>
+            <div class="desc">Depart SG via Woodlands Checkpoint. Plan to clear customs and hit Johor Bahru ground by ~09:00 AM.</div>
         </div>
 
-        <!-- 10:15 AM - Dual Category Food Hub -->
+        <div class="card route-0830 show-block">
+            <div class="node"><i data-lucide="map-pin"></i></div>
+            <div class="time">09:00 AM</div>
+            <div class="title">JB Old Town Pitstop</div>
+            <div class="desc">Clear CIQ and slide straight into the historic Jalan Tan Hiok Nee heritage zone. Select a local highlight to explore:</div>
+            
+            <div class="tabs" style="margin-top: 10px;">
+                <button class="tab-btn am-t active" onclick="switchElementTab('am-t', 'am-content', 'hiapjoo')">🥖 Hiap Joo Bakery</button>
+                <button class="tab-btn am-t" onclick="switchElementTab('am-t', 'am-content', 'salahuddin')">🥐 Salahuddin Bakery</button>
+                <button class="tab-btn am-t" onclick="switchElementTab('am-t', 'am-content', 'heritagewalk')">📸 Heritage Stroll</button>
+            </div>
+
+            <div id="hiapjoo" class="tab-content am-content active">
+                <div class="rating-row"><span>⭐⭐⭐⭐★ Wood-Fired Icon</span> <span class="loc-tag">Jalan Tan Hiok Nee</span></div>
+                <p style="margin: 0 0 8px 0; line-height: 1.4; color: var(--text-muted);">Famous for charcoal-baked banana cakes. Skipping the notorious afternoon lines by hitting this right at opening window.</p>
+                <div class="recommendation-box">
+                    <strong>💡 09:00 AM Hack:</strong> Walk straight up to the counter seamlessly. Snag a couple of fresh, hot boxes to store in your car boot before driving over to the mall.
+                </div>
+            </div>
+
+            <div id="salahuddin" class="tab-content am-content">
+                <div class="rating-row"><span>⭐⭐⭐⭐☆ Since 1937</span> <span class="loc-tag">Jalan Dhoby</span></div>
+                <p style="margin: 0 0 8px 0; line-height: 1.4; color: var(--text-muted);">An absolute time-capsule family bakery utilizing a massive, traditional charcoal brick oven.</p>
+                <div class="recommendation-box">
+                    <strong>💡 What to buy:</strong> Grab their signature coal-baked flaky mutton curry puffs or old-school sugar-sprinkled pastries fresh out of the oven.
+                </div>
+            </div>
+
+            <div id="heritagewalk" class="tab-content am-content">
+                <div class="rating-row"><span>📸 Empty Street Window</span> <span class="loc-tag">Cultural Zone</span></div>
+                <p style="margin: 0 0 8px 0; line-height: 1.4; color: var(--text-muted);">Walk past the iconic bright red pre-war shophouses and historic street murals before the heavy tropical noon sun hits.</p>
+                <div class="recommendation-box">
+                    <strong>💡 Quick Shoot:</strong> Completely devoid of tourist buses at this hour. Ideal for clean, crisp, uninterrupted group photos near the cultural monuments.
+                </div>
+            </div>
+        </div>
+
+        <!-- OPTION 2: 09:00 AM DEPARTURE ONLY BLOCKS -->
+        <div class="card route-0900">
+            <div class="node"><i data-lucide="clock"></i></div>
+            <div class="time">09:00 AM</div>
+            <div class="title">Standard Departure Route</div>
+            <div class="desc">Depart SG via Woodlands. Clear customs and jump straight onto the EDL highway heading north directly to the shopping complex.</div>
+        </div>
+
+        <!-- SHARED BASE TIMELINE (Appears for both options at 10:00 AM onwards) -->
+        <div class="card" style="display: block;">
+            <div class="node"><i data-lucide="door-open"></i></div>
+            <div class="time">10:00 AM</div>
+            <div class="title">Opening Window Exploration</div>
+            <div class="desc">Pull into Mid Valley Southkey precisely as the mall doors open. Enjoy a highly peaceful, crowd-free hour:</div>
+            <div class="tag-list" style="margin-top: 10px;">
+                <span class="tag">🏡 HOOGA (Nordic Living & Premium Scent Savings)</span>
+                <span class="tag">📚 POPULAR Bookstore (Flagship Lifestyle Layout)</span>
+                <span class="tag">👓 Optical 88 / Focus Point (No-Wait Eye Exams)</span>
+            </div>
+        </div>
+
+        <!-- 11:00 AM - Dual Category Food Hub -->
         <div class="card">
             <div class="node"><i data-lucide="utensils"></i></div>
-            <div class="time">10:15 AM</div>
+            <div class="time">11:00 AM</div>
             <div class="title">Brunch Hub Selection</div>
-            <div class="desc">Toggle below to choose between high-tier dining options located right inside the shopping complex or famous local tracks nearby:</div>
+            <div class="desc">Dining at 11:00 AM provides nearly 2.5 hours of ideal digestion before your flat-surface aromatherapy session. Select an option below:</div>
             
-            <!-- Primary Hub Selector Toggle Switches -->
             <div class="hub-selector">
                 <button id="btn-hub-mall" class="hub-btn active" onclick="switchHub('mall')">🏢 Inside Mall</button>
                 <button id="btn-hub-outside" class="hub-btn" onclick="switchHub('outside')">🚗 Outside Mall (Local Vetted)</button>
@@ -264,11 +387,10 @@
 
                 <div id="oriental" class="tab-content mall-content active">
                     <div class="rating-row"><span>⭐⭐⭐⭐★ 4.1/5 Google</span> <span class="loc-tag">Level LG</span></div>
-                    <!-- Data attributes store the raw MYR numeric value safely for calculation -->
                     <div class="price-item"><span class="price-label">Signature Nasi Lemak</span><span class="price-container">RM17.90 <span class="sgd-val" data-myr="17.90"></span></span></div>
                     <div class="price-item"><span class="price-label">Portuguese Egg Tart</span><span class="price-container">RM4.90/pc <span class="sgd-val" data-myr="4.90" data-suffix="/pc"></span></span></div>
                     <div class="recommendation-box">
-                        <strong>💡 Short Reason:</strong> Massive crowd favorite. Entering right at 10:15 AM lets you bypass notorious lunch lines. Their thick Nanyang coffee and super flaky tarts are legendary.
+                        <strong>💡 Short Reason:</strong> Massive crowd favorite. Entering right as the morning lineup settles lets you bypass notorious lunch lines. Their thick Nanyang coffee and super flaky tarts are legendary.
                     </div>
                 </div>
 
@@ -322,7 +444,7 @@
                     <div class="price-item"><span class="price-label">Claypot Curry Fish Head (M)</span><span class="price-container">RM47.00 <span class="sgd-val" data-myr="47.00"></span></span></div>
                     <div class="price-item"><span class="price-label">Extra Fried Beancurd Skin</span><span class="price-container">RM6.00 <span class="sgd-val" data-myr="6.00"></span></span></div>
                     <div class="recommendation-box">
-                        <strong>💡 Short Reason:</strong> A legendary local institution. Serves boiling, intensely aromatic curry fish heads topped with endless fried beancurd skins. Arriving at 10:15 AM lands you a table with zero wait time.
+                        <strong>💡 Short Reason:</strong> A legendary local institution. Serves boiling, intensely aromatic curry fish heads topped with endless fried beancurd skins. Arriving post-10am peak lands you a spot seamlessly.
                     </div>
                 </div>
 
@@ -361,59 +483,72 @@
             </div>
         </div>
 
-        <!-- 11:30 AM - Streamlined Group Massage Hub -->
+        <!-- 12:15 PM - Exchange Rate Retail Sweep -->
+        <div class="card">
+            <div class="node"><i data-lucide="shopping-bag"></i></div>
+            <div class="time">12:15 PM</div>
+            <div class="title">Exchange Rate Retail Sweep</div>
+            <div class="desc">Maximize exchange rate savings across major flagship hubs inside the complex before your session:</div>
+            <div class="tag-list">
+                <span class="tag">👕 Good2U Retail Hub</span>
+                <span class="tag">🧢 Outpozt Streetwear</span>
+                <span class="tag">🏬 SOGO Department Store</span>
+            </div>
+        </div>
+
+        <!-- 01:45 PM - Siam Oasis Confirmed Booking -->
         <div class="card">
             <div class="node"><i data-lucide="heart-handshake"></i></div>
-            <div class="time">11:30 AM</div>
-            <div class="title">Massage Therapy Hub</div>
-            <div class="desc">Regroup inside the mall complex to execute your premium therapy slots. (Prices subject to 8% SST):</div>
+            <div class="time">01:45 PM</div>
+            <div class="title">Siam Oasis Massage (Confirmed)</div>
+            <div class="desc">Arrive 15 mins early to settle in. Configured directly from verified booking details under <strong>Jay</strong>.</div>
             
-            <div class="tabs">
-                <button class="tab-btn massage-t active" onclick="switchElementTab('massage-t', 'massage-content', 'thai')">Thai Odyssey</button>
-                <button class="tab-btn massage-t" onclick="switchElementTab('massage-t', 'massage-content', 'siam')">Siam Oasis</button>
-            </div>
-
-            <div id="thai" class="tab-content massage-content active">
-                <div class="price-item"><span class="price-label">Thai Aromatherapy Massage (60m)</span><span class="price-container">RM160.00 <span class="sgd-val" data-myr="160.00"></span></span></div>
-                <div class="price-item"><span class="price-label">Thai Aromatherapy Massage (90m)</span><span class="price-container">RM209.00 <span class="sgd-val" data-myr="209.00"></span></span></div>
-                <div class="price-item"><span class="price-label">Thai Aromatherapy Massage (120m)</span><span class="price-container">RM259.00 <span class="sgd-val" data-myr="259.00"></span></span></div>
-                <p style="font-size:10px; color:#94a3b8; margin: 6px 0 0 0;">🌿 Standard Single Therapist Aromatherapy Session with Premium Essential Oils</p>
-                <a href="https://thaiodyssey.com" target="_blank" class="web-link">🌐 Visit Official Website →</a>
+            <div class="tab-content massage-content active" style="display: block; margin-top: 10px;">
+                <div class="rating-row"><span>📍 Lot TM-018, Level 4</span> <span class="loc-tag">4 Pax (2 Double Rooms)</span></div>
+                <div class="price-item"><span class="price-label">Aromatherapy (60m Session)</span><span class="price-container">RM168.00 <span class="sgd-val" data-myr="168.00" data-suffix="/pax"></span></span></div>
+                <p style="font-size:10px; color:#f87171; margin: 6px 0 0 0;">⚠️ Note: Late arrivals result in reduced treatment runtime.</p>
                 <div class="action-container">
-                    <a href="tel:+6073384185" class="action-btn btn-call"><i data-lucide="phone"></i> Call Outlet</a>
-                    <a href="https://api.whatsapp.com/send?phone=60168668344" target="_blank" class="action-btn btn-wa"><i data-lucide="message-square"></i> WhatsApp</a>
-                </div>
-            </div>
-
-            <div id="siam" class="tab-content massage-content">
-                <div class="price-item"><span class="price-label">5 Senses Therapy (60m)</span><span class="price-container">RM111.25 <span class="sgd-val" data-myr="111.25"></span></span></div>
-                <div class="price-item"><span class="price-label">Sacha Inchi Oil Aroma (60m)</span><span class="price-container">RM168.00 <span class="sgd-val" data-myr="168.00"></span></span></div>
-                <div class="price-item"><span class="price-label">Sacha Inchi Oil Aroma (90m)</span><span class="price-container">RM203.00 <span class="sgd-val" data-myr="203.00"></span></span></div>
-                <p style="font-size:10px; color:#f87171; margin: 6px 0 0 0;">⚠️ Note: Requires RM100 booking deposit. Strict 10-min grace period.</p>
-                <a href="https://www.midvalleysouthkey.com/tenant/SiamOasis/5c40c338-3cc6-4c95-b3c3-43fd6478a9d6/SHOP" target="_blank" class="web-link">🌐 View Mall Profile →</a>
-                <div class="action-container">
-                    <a href="tel:+6072910687" class="action-btn btn-call"><i data-lucide="phone"></i> Call Outlet</a>
+                    <a href="tel:+60124373100" class="action-btn btn-call"><i data-lucide="phone"></i> Call Outlet</a>
                     <a href="https://api.whatsapp.com/send?phone=60124373100" target="_blank" class="action-btn btn-wa"><i data-lucide="message-square"></i> WhatsApp</a>
                 </div>
             </div>
         </div>
 
-        <!-- 13:30 -->
+        <!-- 03:00 PM - Post-Massage Golden Hour (Supermarket & Takeaways) -->
         <div class="card">
-            <div class="node"><i data-lucide="shopping-bag"></i></div>
-            <div class="time">01:30 PM</div>
-            <div class="title">Malaysian Exchange Rate Haul</div>
-            <div class="desc">High-value storefronts where Singaporeans maximize savings on personal care and retail items:</div>
-            <div class="tag-list">
-                <span class="tag">📦 Focus Point / Optical 88</span>
-                <span class="tag">👕 Good2U Retail Hub</span>
-                <span class="tag">🧢 Outpozt Streetwear</span>
-                <span class="tag">🏬 SOGO Department Store</span>
-                <span class="tag">🛒 Village Grocer</span>
+            <div class="node"><i data-lucide="sparkles"></i></div>
+            <div class="time">03:00 PM</div>
+            <div class="title">3:00 - 3:45 PM Golden Window</div>
+            <div class="desc">Toggle tabs below to explore your target takeaways or launch your primary supermarket sweep:</div>
+            
+            <div class="tabs" style="margin-top: 10px;">
+                <button class="tab-btn pm-t active" onclick="switchElementTab('pm-t', 'pm-content', 'grocer-tab')">🛒 Village Grocer</button>
+                <button class="tab-btn pm-t" onclick="switchElementTab('pm-t', 'pm-content', 'takeaway-tab')">🥧 Quick Takeaways</button>
+            </div>
+
+            <div id="grocer-tab" class="tab-content pm-content active">
+                <div class="rating-row"><span>⭐⭐⭐⭐★ Premium Supermarket</span> <span class="loc-tag">Level LG</span></div>
+                <p style="margin: 0 0 8px 0; line-height: 1.4; color: var(--text-muted);">Perfect timing to load up your car boot so chilled items don't sit out in the morning heat.</p>
+                <div class="tag-list">
+                    <span class="tag">📦 Local Baking/Curry Pastes</span>
+                    <span class="tag">🍫 Malaysian-Exclusive Snacks</span>
+                    <span class="tag">🥤 Cheap Bottled Drinks & Coffee</span>
+                </div>
+                <div class="recommendation-box">
+                    <strong>💡 Strategy:</strong> Take the elevator straight down to LG from the massage parlor. Grab a trolley and execute a 25-minute sprint for dry goods and household supplies before hitting the checkout lanes.
+                </div>
+            </div>
+
+            <div id="takeaway-tab" class="tab-content pm-content">
+                <div class="rating-row"><span>⚡ Quick Counter Service</span> <span class="loc-tag">Level G / LG</span></div>
+                <div class="price-item"><span class="price-label">Oriental Egg Tart (Box of 6)</span><span class="price-container">RM29.40 <span class="sgd-val" data-myr="29.40"></span></span></div>
+                <div class="recommendation-box">
+                    <strong>💡 Drive Back Fuel:</strong> Swing past **Oriental Kopi**'s express counter to grab boxes of pastries to bring home across the checkpoint. Hit up **CHAGEE** or **HEYTEA** next door to secure iced drinks for any potential customs queues.
+                </div>
             </div>
         </div>
 
-        <!-- 15:45 - Cleaned Fuel Station Hub with Map Links & Active Prices -->
+        <!-- 03:45 PM - Fuel Station Hub with Map Links & Active Prices -->
         <div class="card">
             <div class="node"><i data-lucide="fuel"></i></div>
             <div class="time">03:45 PM</div>
@@ -460,23 +595,44 @@
     // Initialize icons
     lucide.createIcons();
 
+    // Master Timeline Departure Option Switcher Controller
+    function toggleMasterStrategy(strategy) {
+        // Clear all master active button stylings
+        document.getElementById('m-btn-0830').classList.remove('active');
+        document.getElementById('m-btn-0900').classList.remove('active');
+        
+        // Hide all conditional view block classes
+        document.querySelectorAll('.route-0830').forEach(el => { el.classList.remove('show-block', 'show-flex'); });
+        document.querySelectorAll('.route-0900').forEach(el => { el.classList.remove('show-block', 'show-flex'); });
+
+        if (strategy === '0830') {
+            document.getElementById('m-btn-0830').classList.add('active');
+            document.querySelectorAll('.route-0830').forEach((el, index) => {
+                if (index === 0) el.classList.add('show-flex'); // Top route progress summary row
+                else el.classList.add('show-block'); // Timeline card nodes
+            });
+        } else {
+            document.getElementById('m-btn-0900').classList.add('active');
+            document.querySelectorAll('.route-0900').forEach((el, index) => {
+                if (index === 0) el.classList.add('show-flex'); // Top route progress summary row
+                else el.classList.add('show-block'); // Timeline card nodes
+            });
+        }
+    }
+
     // Live Exchange Rate Calculator Engine
     async function updateLiveExchangeRates() {
-        const defaultRate = 3.16; // Stable fallback rate if API is blocked or offline
+        const defaultRate = 3.16; 
         let myrToSgdRate;
 
         try {
-            // Fetch live rates from Frankfurter open currency database (Base currency SGD)
             const response = await fetch('https://api.frankfurter.app/latest?from=SGD&to=MYR');
             if (!response.ok) throw new Error('API down');
             
             const data = await response.json();
             const sgdToMyr = data.rates.MYR;
             
-            // Display live rate in the header badge
             document.getElementById('rate-badge').innerHTML = `💱 Exchange Rate: 1 SGD = ${sgdToMyr.toFixed(2)} RM`;
-            
-            // We want to turn an RM amount back into SGD, so calculate 1 / rate
             myrToSgdRate = 1 / sgdToMyr;
         } catch (error) {
             console.warn("FX API Error, relying on benchmark fallback (~3.16).", error);
@@ -484,10 +640,9 @@
             myrToSgdRate = 1 / defaultRate;
         }
 
-        // Compute and inject SGD values globally into all placeholder spans
         document.querySelectorAll('.sgd-val').forEach(span => {
             const rawMyr = parseFloat(span.getAttribute('data-myr'));
-            const suffix = span.getAttribute('data-suffix') || ''; // handles special formats like /pc or /L
+            const suffix = span.getAttribute('data-suffix') || ''; 
             
             if (!isNaN(rawMyr)) {
                 const computedSgd = (rawMyr * myrToSgdRate).toFixed(2);
@@ -496,7 +651,6 @@
         });
     }
 
-    // Trigger calculation engine immediately on window load
     window.addEventListener('DOMContentLoaded', updateLiveExchangeRates);
 
     // Navigation View Controller
